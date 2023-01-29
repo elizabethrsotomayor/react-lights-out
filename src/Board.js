@@ -30,15 +30,13 @@ import "./Board.css";
 
 class Board extends Component {
   static defaultProps = {
-    nrows: 5,
     ncols: 5,
+    nrows: 5,
     chanceLightStartsOn: Math.random() * 5,
   };
 
   constructor(props) {
     super(props);
-
-    // TODO: set initial state
     this.state = {
       hasWon: false,
       board: this.createBoard(),
@@ -49,7 +47,6 @@ class Board extends Component {
 
   createBoard() {
     let board = [];
-    // TODO: create array-of-arrays of true/false values
     for (let i = 0; i < this.props.nrows; i++) {
       let curArr = [];
       for (let j = 0; j < this.props.ncols; j++) {
@@ -74,17 +71,21 @@ class Board extends Component {
     let { ncols, nrows } = this.props;
     let board = this.state.board;
     let [y, x] = coord.split("-").map(Number);
+    console.log(`${y} ${x}`);
 
     function flipCell(y, x) {
-      // if this coord is actually on board, flip it
+      //if this coord is actually on board, flip it
 
       if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
         board[y][x] = !board[y][x];
+        console.log(board);
       }
     }
 
     // TODO: flip this cell and the cells around it
     // flip self
+    flipCell(y, x);
+
     // flip north neighbor
     // flip south
 
@@ -102,15 +103,17 @@ class Board extends Component {
     // TODO
 
     // make table board
-
-    // TODO
-
     const board = this.state.board;
 
     let markup = board.map((row, index) => (
       <tr key={index}>
         {board[index].map((cell, cellIndex) => (
-          <Cell key={cellIndex} isLit={board[index][cellIndex]} />
+          <Cell
+            key={cellIndex}
+            isLit={board[index][cellIndex]}
+            flipCellsAroundMe={this.flipCellsAround.bind(this)}
+            coord={`${index}-${cellIndex}`}
+          />
         ))}
       </tr>
     ));
