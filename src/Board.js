@@ -71,23 +71,30 @@ class Board extends Component {
     let { ncols, nrows } = this.props;
     let board = this.state.board;
     let [y, x] = coord.split("-").map(Number);
-    console.log(`${y} ${x}`);
 
     function flipCell(y, x) {
       //if this coord is actually on board, flip it
-
       if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
         board[y][x] = !board[y][x];
-        console.log(board);
       }
     }
 
-    // TODO: flip this cell and the cells around it
     // flip self
     flipCell(y, x);
 
     // flip north neighbor
+    flipCell(y + 1, x);
+
     // flip south
+    flipCell(y - 1, x);
+
+    // east (right)
+    flipCell(y, x + 1);
+
+    // west (left)
+    flipCell(y, x - 1);
+
+    this.setState((st) => (st.board = board));
 
     // win when every cell is turned off
     // TODO: determine is the game has been won
