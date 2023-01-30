@@ -80,7 +80,7 @@ class Board extends Component {
     }
 
     function allFalse(arr) {
-      return arr.forEach((element) => element.every((x) => x === false));
+      return arr.every((element) => element.every((x) => x === false));
     }
 
     // flip self
@@ -101,23 +101,18 @@ class Board extends Component {
     this.setState((st) => (st.board = board));
 
     // win when every cell is turned off
-    // TODO: determine is the game has been won
     this.setState((st) => {
       st.hasWon = allFalse(st.board);
     });
-
-    //this.setState({ board, hasWon });
   }
 
   /** Render game board or winning message. */
 
   render() {
-    // if the game is won, just show a winning msg & render nothing else
-
-    // TODO
-
     // make table board
     const board = this.state.board;
+
+    const hasWon = this.state.hasWon;
 
     let markup = board.map((row, index) => (
       <tr key={index}>
@@ -133,9 +128,23 @@ class Board extends Component {
     ));
 
     return (
-      <table className="Board">
-        <tbody>{markup}</tbody>
-      </table>
+      // if the game is won, just show a winning msg & render nothing else
+      <div className="Board">
+        {hasWon ? (
+          <div>
+            <h1 className="Board-neon">You</h1>
+            <h1 className="Board-flux">Win!</h1>
+          </div>
+        ) : (
+          <div>
+            <h1 className="Board-neon">Lights</h1>
+            <h1 className="Board-flux">Out</h1>
+            <table className="Board-container">
+              <tbody>{markup}</tbody>
+            </table>
+          </div>
+        )}
+      </div>
     );
   }
 }
