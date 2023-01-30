@@ -79,6 +79,10 @@ class Board extends Component {
       }
     }
 
+    function allFalse(arr) {
+      return arr.forEach((element) => element.every((x) => x === false));
+    }
+
     // flip self
     flipCell(y, x);
 
@@ -98,6 +102,9 @@ class Board extends Component {
 
     // win when every cell is turned off
     // TODO: determine is the game has been won
+    this.setState((st) => {
+      st.hasWon = allFalse(st.board);
+    });
 
     //this.setState({ board, hasWon });
   }
